@@ -17,14 +17,16 @@ print(f"Elementos en el RDD: {rdd_vacio_3p.count()}")
 print(f"Particiones en el RDD: {rdd_vacio_3p.getNumPartitions()}")
 
 # Crear un RDD de tuplas (nombre, edad)
-dataRDD = sc.parallelize([("Jinx", 22), ("Solid Snake", 26), ("Naka", 39), ("Marlon", 21), ("Jhon Snow", 25), ("Solid Snake", 24), ("Marlon", 19)])
+dataRDD = sc.parallelize([("Jinx", 22), ("Solid Snake", 26),
+                        ("Naka", 39), ("Marlon", 21), ("Jhon Snow", 25),
+                        ("Solid Snake", 24), ("Marlon", 19)])
 print(f"Elementos en dataRDD: {dataRDD.count()}")
 print(f"Particiones en dataRDD: {dataRDD.getNumPartitions()}")
 # Usaremos map & reduceByKey y obtener la media de la edad
 edadesRDD = (dataRDD
     .map(lambda x: (x[0], (x[1], 1)))
     .reduceByKey(lambda x, y: (x[0] + y[0], x[1] + y[1]))
-    #.map(lambda x: (x[0], x[1][0]/x[1][1]))
+    .map(lambda x: (x[0], x[1][0]/x[1][1]))
 )
 # Accion
 result = edadesRDD.collect()
